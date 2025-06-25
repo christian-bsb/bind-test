@@ -7,8 +7,23 @@ export function compareXmlSideBySide(node1, node2) {
     return [annotate(node1, 'removed'), null];
   }
 
+
   const name1 = node1.nodeName;
   const name2 = node2.nodeName;
+
+  const attrs1 = {};
+    if (node1.attributes) {
+      for (const attr of Array.from(node1.attributes)) {
+        attrs1[attr.name] = attr.value;
+      }
+    }
+      const attrs2 = {};
+        if (node2.attributes) {
+          for (const attr of Array.from(node2.attributes)) {
+            attrs2[attr.name] = attr.value;
+          }
+        }
+
 
   if (name1 !== name2) {
     return [
@@ -16,6 +31,8 @@ export function compareXmlSideBySide(node1, node2) {
       annotate(node2, 'added'),
     ];
   }
+
+
 
   const children1 = Array.from(node1.childNodes).filter(n => n.nodeType !== Node.COMMENT_NODE);
   const children2 = Array.from(node2.childNodes).filter(n => n.nodeType !== Node.COMMENT_NODE);
@@ -33,12 +50,14 @@ export function compareXmlSideBySide(node1, node2) {
   return [
     {
       name: name1,
+      attributes: attrs1,
       type: 'element',
       diff: 'unchanged',
       children: leftChildren,
     },
     {
       name: name2,
+      attributes: attrs2,
       type: 'element',
       diff: 'unchanged',
       children: rightChildren,

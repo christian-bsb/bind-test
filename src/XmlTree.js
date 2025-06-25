@@ -2,7 +2,12 @@
 import React from 'react';
 
 function XmlTree({ node, depth = 0 }) {
+
+
   if (!node) return null;
+
+    console.log( node.attributes);
+
 
   const indent = '  '.repeat(depth);
   const style = {
@@ -18,7 +23,8 @@ function XmlTree({ node, depth = 0 }) {
     borderLeft: '2px solid #ccc',
   };
 
-  if (node.type === 'text') {
+
+  if (node.name === '#text') {
     return (
       <div style={style}>
         {indent}{node.textContent}
