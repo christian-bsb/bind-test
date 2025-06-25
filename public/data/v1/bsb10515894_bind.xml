@@ -9,13 +9,11 @@
       <publicationStmt>
         <publisher>Bayerische Staatsbibliothek</publisher>
         <pubPlace>
-          <name>München und umgebung:q
-</name>
+          <name>München und umgebung</name>
         </pubPlace>
         <date when="2024-09-10T11:30:12Z">2024-09-10</date>
         <availability status="free">
           <licence ana="#lib" target="http://rightsstatements.org/vocab/NoC-NC/1.0/">
-            <term>NoC-NC</term>
           </licence>
           <licence ana="#mdd" target="http://rightsstatements.org/vocab/NoC-NC/1.0/">
             <p xml:lang="de-Latn">Kein Urheberrechtsschutz – nur nicht-kommerzielle Nutzung erlaubt</p>

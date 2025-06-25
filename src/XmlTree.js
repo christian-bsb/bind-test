@@ -1,37 +1,51 @@
+// XmlTree.js
 import React from 'react';
 
-function XmlTree({ node, diffType }) {
-  if (node.nodeType === Node.TEXT_NODE) {
-    const text = node.textContent.trim();
-    if (!text) return null;
+function XmlTree({ node, depth = 0 }) {
+  if (!node) return null;
+
+  const indent = '  '.repeat(depth);
+  const style = {
+    backgroundColor:
+      node.diff === 'added' ? '#d4edda' :
+      node.diff === 'removed' ? '#f8d7da' :
+      node.diff === 'changed' ? '#fff3cd' :
+      'transparent',
+    fontFamily: 'monospace',
+    fontSize: '0.9rem',
+    whiteSpace: 'pre',
+    paddingLeft: '0.5rem',
+    borderLeft: '2px solid #ccc',
+  };
+
+  if (node.type === 'text') {
     return (
-      <span style={{ color: diffType === 'added' ? 'green' : diffType === 'removed' ? 'red' : 'black' }}>
-        {text}
-      </span>
+      <div style={style}>
+        {indent}{node.textContent}
+      </div>
     );
   }
 
-  if (node.nodeType !== Node.ELEMENT_NODE) return null;
+  // Attribut-Darstellung
+  const attrString = node.attributes
+    ? Object.entries(node.attributes)
+        .map(([k, v]) => `${k}="${v}"`)
+        .join(' ')
+    : '';
 
-  const tagName = node.nodeName;
-  const children = Array.from(node.childNodes);
-
-  const style = {
-    backgroundColor: diffType === 'added' ? '#d4edda' : diffType === 'removed' ? '#f8d7da' : 'transparent',
-    borderLeft: '2px solid #ccc',
-    paddingLeft: '0.5rem',
-    marginBottom: '0.3rem',
-  };
+  const openTag = `<${node.name}${attrString ? ' ' + attrString : ''}>`;
+  const closeTag = `</${node.name}>`;
 
   return (
     <div style={style}>
-      <div style={{ fontWeight: 'bold' }}>&lt;{tagName}&gt;</div>
-      <div style={{ paddingLeft: '1rem' }}>
-        {children.map((child, idx) => (
-          <XmlTree key={idx} node={child} diffType={diffType} />
-        ))}
-      </div>
-      <div>&lt;/{tagName}&gt;</div>
+      {indent}{openTag}
+      {node.children?.length > 0 ? (
+        node.children.map((child, i) => (
+          <XmlTree key={i} node={child} depth={depth + 1} />
+        ))
+      ) : null}
+      {node.children?.length > 0 ? indent : ''}
+      {closeTag}
     </div>
   );
 }
