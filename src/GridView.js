@@ -2,18 +2,20 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
 import { FileContext } from './FileContext';
+import { LogContext } from './LogContext';
 import XmlTree from './XmlTree';
 import { compareXmlSideBySide } from './compareXmlSideBySide';
 
 function GridView() {
   const { selectedFile } = useContext(FileContext);
+  const { log } = useContext(LogContext);
   const [leftTree, setLeftTree] = useState(null);
   const [rightTree, setRightTree] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       if (!selectedFile) return;
-
+        log(`Lade Datei: ${selectedFile.name}`);
       try {
         const [res1, res2] = await Promise.all([
           fetch(selectedFile.path1),

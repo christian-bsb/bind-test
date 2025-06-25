@@ -5,6 +5,7 @@ import './App.css';
 import { Container, Navbar, Nav, Row, Col, Card, Tabs, Tab } from 'react-bootstrap';
 
 import { FileProvider } from './FileContext';
+import { LogProvider } from './LogContext';
 import FileList from './FileList';
 import TextContent from './TextContent';
 import MessageTabs from './MessageTabs';
@@ -14,6 +15,7 @@ import NavbarWithSearch from './NavbarWithSearch';
 function App() {
   return (
    <>
+   <LogProvider>
    <FileProvider>
         <NavbarWithSearch/>
         <Container className="mt-4">
@@ -22,6 +24,7 @@ function App() {
           <MessageTabs/>
         </Container>
         </FileProvider>
+        </LogProvider>
       </>
   );
 }
