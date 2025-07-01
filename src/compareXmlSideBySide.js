@@ -23,6 +23,8 @@ export function compareXmlSideBySide(node1, node2) {
             attrs2[attr.name] = attr.value;
           }
         }
+  const text1 = node1.node.textContent;
+  const text2 = node2.node.textContent;
 
 
   if (name1 !== name2) {
@@ -51,6 +53,7 @@ export function compareXmlSideBySide(node1, node2) {
     {
       name: name1,
       attributes: attrs1,
+      textContent: text1,
       type: 'element',
       diff: 'unchanged',
       children: leftChildren,
@@ -58,6 +61,7 @@ export function compareXmlSideBySide(node1, node2) {
     {
       name: name2,
       attributes: attrs2,
+      textContent: text2,
       type: 'element',
       diff: 'unchanged',
       children: rightChildren,
