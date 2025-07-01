@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
 import { FileContext } from './FileContext';
 import { diffWords } from 'diff';
+import { LogContext } from './LogContext';
 
 function GridView() {
   const { selectedFile } = useContext(FileContext);
@@ -12,11 +13,13 @@ function GridView() {
   const leftRef = useRef(null);
   const rightRef = useRef(null);
   const isSyncingRef = useRef(false); // Verhindert Endlosschleifen
+  const { log } = useContext(LogContext);
 
   useEffect(() => {
     const fetchData = async () => {
       if (selectedFile) {
         try {
+        log(`Datei "${selectedFile.path1}" wurde ausgewählt.`);
           const res1 = await fetch(selectedFile.path1);
           const res2 = await fetch(selectedFile.path2);
           const text1 = await res1.text();
@@ -77,7 +80,7 @@ function GridView() {
     });
 
   return (
-    <Row className="mt-3" style={{ height: '500px', overflow: 'hidden' }}>
+    <Row className="mt-3" style={{ height: '650px', overflow: 'hidden' }}>
       <Col md={6}>
         <Card>
           <Card.Header>Version 1</Card.Header>
@@ -85,7 +88,7 @@ function GridView() {
             ref={leftRef}
             style={{
               overflowY: 'scroll',
-              height: '400px',
+              height: '600px',
               fontFamily: 'monospace',
               whiteSpace: 'pre-wrap',
             }}
@@ -101,7 +104,7 @@ function GridView() {
             ref={rightRef}
             style={{
               overflowY: 'scroll',
-              height: '400px',
+              height: '600px',
               fontFamily: 'monospace',
               whiteSpace: 'pre-wrap',
             }}
